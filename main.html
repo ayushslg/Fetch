@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Mentorship</title>
+</head>
+<body>
+  <input type="text"  id="hand" placeholder="Enter handle ..."/><br/>
+  <button onclick="performGetRequest()">Fetch data</button>
+  <button onclick="ClearOutput()">Clear</button>
+  <div id="getResult"></div>
+  <script>
+  function performGetRequest() {
+    var resultElement = document.getElementById('getResult');
+    var hand = document.getElementById('hand').value;
+    axios.get('https://codeforces.com/api/user.info',{ params :{ handles: hand}})
+      .then(responseData =>{console.log(responseData);});
+  }
+  </script>
+
+  
+
+</body>
+</html>
