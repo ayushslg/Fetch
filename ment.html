@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Mentorship</title>
+</head>
+<body>
+  <input type="text"  id="hand" placeholder="Enter handle ..."/><br/>
+  <button onclick="performGetRequest()">Fetch data</button>
+  <button onclick="getsub()">Submissions</button>
+  <button onclick="getrate()">Rating</button>
+  <button onclick="Clearoutput()">Clear</button>
+  <div id="getResult"></div>
+  <script>
+  function performGetRequest() {
+    var resultElement = document.getElementById('getResult');
+    var hand = document.getElementById('hand').value;
+    axios.get('https://codeforces.com/api/user.info',{ params :{ handles: hand}})
+    .then(function (response) {
+      resultElement.innerHTML = generateSuccessHTMLOutput(response);
+    });  
+  }
+  function getsub() {
+    var resultElement = document.getElementById('getResult');
+    var hand = document.getElementById('hand').value;
+    axios.get('https://codeforces.com/api/user.status',{ params :{ handle: hand,from: 1,count: 10}})
+    .then(function (response) {
+      resultElement.innerHTML = submissioninfo(response);
+    });  
+  }
+  function getrate() {
+    var resultElement = document.getElementById('getResult');
+    var hand = document.getElementById('hand').value;
+    axios.get('https://codeforces.com/api/user.rating',{ params :{ handle: hand}})
+    .then(function (response) {
+      resultElement.innerHTML = generaterate(response);
+    });  
+  }
+  function submissioninfo(response)
+  {
+    return '<h4>Submissions<h4>'+'<pre>'+JSON.stringify(response.data,null,'\t')+'</pre>';
+  }
+  function generaterate(response)
+  {
+    return '<h4>Rate<h4>'+'<pre>'+JSON.stringify(response.data,null,'\t')+'</pre>';
+  }
+  function generateSuccessHTMLOutput(response) {
+  return  '<h4>Result</h4>' +  
+          '<pre>' + JSON.stringify(response.data, null, '\t') + '</pre>'; 
+}
+function clearoutput()
+{
+  var resultElement= document.getElementById('getResult');
+  resultElement.innerHtml='';
+}
+  </script>
+
+  
+
+</body>
+</html>
